@@ -205,16 +205,29 @@ public class TetrisGame {
         // 2023/5/22 K. T.
         // TODO: Replace newPiece() with isFallingFinished = true
         //       Double-check if it is ok
-        isFallingFinished = true;
-        /*
+        //isFallingFinished = true;
+        
         if (!isFallingFinished) {
             newPiece();
-        }*/
+        }
     }
 
     private void newPiece() {
+        //curPiece.setRandomShape();
+        //initPiece();
+
         curPiece.setRandomShape();
-        initPiece();
+        curX = BOARD_WIDTH / 2 + 1;
+        curY = BOARD_HEIGHT - 1 + curPiece.minY();
+
+        if (!tryMove(curPiece, curX, curY)) {
+
+            curPiece.setShape(Tetrominoe.NoShape);
+            timer.stop();
+
+            var msg = String.format("Game over. Score: %d", numLinesRemoved);
+            statusbar.setText(msg);
+        }
     }
 
     private boolean initPiece() {
